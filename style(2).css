@@ -1,0 +1,959 @@
+/* =========================================================
+   NOTHIN.IN — MAIN STYLESHEET
+   Sections are numbered so everything is easy to find.
+   ========================================================= */
+
+/* 01. COLORS / VARIABLES */
+:root {
+    --black: #080808;
+    --black-soft: #111111;
+    --white: #f7f5ef;
+    --muted: #aaa69c;
+    --gold: #d9b86c;
+    --gold-light: #f0d995;
+    --border: rgba(255,255,255,.13);
+}
+
+/* 02. RESET / BASIC */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    min-height: 100vh;
+    background: var(--black);
+    color: var(--white);
+    font-family: "DM Sans", Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Small gold "eyebrow" label used above headings across the page */
+.eyebrow {
+    display: inline-block;
+    margin-bottom: 14px;
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+}
+
+/* 03. HEADER / NAVIGATION */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 78px;
+    padding: 0 clamp(25px, 6vw, 90px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    background: rgba(8,8,8,.45);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    backdrop-filter: blur(18px);
+    animation: headerDrop 1s ease both;
+}
+
+.brand {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--white);
+    white-space: nowrap;
+}
+
+.brand span {
+    color: var(--gold);
+}
+
+.nav-links {
+    display: flex;
+    gap: clamp(22px, 4vw, 50px);
+}
+
+.nav-links a {
+    position: relative;
+    color: rgba(255,255,255,.72);
+    font-size: 14px;
+    transition: color .3s ease;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -9px;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width .3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--white);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Mobile hamburger toggle — hidden on desktop, see section 14 */
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: rgba(255,255,255,.03);
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    margin: 0 auto;
+    background: var(--white);
+    transition: transform .3s ease, opacity .3s ease;
+}
+
+.nav-toggle.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-toggle.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* 04. HERO */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 650px;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.container img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: -5;
+    filter: saturate(.82) contrast(1.05);
+    animation: cinematicZoom 14s ease-out both;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    background:
+        linear-gradient(90deg,rgba(0,0,0,.86),rgba(0,0,0,.58),rgba(0,0,0,.18)),
+        linear-gradient(0deg,rgba(0,0,0,.75),transparent 55%);
+}
+
+.container::after {
+    content: "";
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    right: 4%;
+    top: 25%;
+    border-radius: 50%;
+    background: rgba(217,184,108,.12);
+    filter: blur(100px);
+    z-index: -2;
+    animation: ambientFloat 8s ease-in-out infinite;
+}
+
+/* 05. HERO TEXT */
+.container .text {
+    position: absolute;
+    left: clamp(7%,11vw,15%);
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(850px,82%);
+}
+
+.container .text .hero-word {
+    display: inline-block;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: clamp(70px,11vw,170px);
+    font-weight: 600;
+    line-height: .82;
+    letter-spacing: -.07em;
+    color: var(--white);
+    animation: heroReveal 1.3s ease .25s both;
+}
+
+.container .text .hero-word::after {
+    content: "";
+    display: block;
+    width: 95px;
+    height: 2px;
+    margin-top: 30px;
+    background: var(--gold);
+    animation: lineReveal 1s ease 1s both;
+}
+
+.container .text .hero-sub {
+    max-width: 480px;
+    margin-top: 26px;
+    font-family: "Playfair Display",Georgia,serif;
+    font-style: italic;
+    font-size: clamp(17px,2.1vw,23px);
+    line-height: 1.5;
+    color: var(--muted);
+    animation: subReveal 1s ease 1.35s both;
+}
+
+.hero-rotator {
+    position: relative;
+    height: 22px;
+    margin-top: 18px;
+    overflow: hidden;
+    animation: subReveal 1s ease 1.65s both;
+}
+
+.hero-rotator .rot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .5s ease, transform .5s ease;
+}
+
+.hero-rotator .rot.is-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,.6);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    z-index: 2;
+    animation: subReveal 1s ease 2s both;
+    transition: color .3s ease;
+}
+
+.scroll-cue:hover {
+    color: var(--gold-light);
+}
+
+.scroll-cue-line {
+    width: 1px;
+    height: 34px;
+    background: linear-gradient(var(--gold), transparent);
+    animation: scrollCue 1.8s ease-in-out infinite;
+}
+
+/* 06. HOME SECTION */
+.home {
+    position: relative;
+    min-height: 80vh;
+    padding: clamp(100px,12vw,180px) clamp(25px,11vw,15%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 80% 20%,rgba(217,184,108,.08),transparent 30%),
+        var(--black);
+}
+
+.h-h1 {
+    position: relative;
+    z-index: 2;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: clamp(55px,8vw,120px);
+    line-height: .95;
+    letter-spacing: -.06em;
+}
+
+.h-h2 {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    margin-top: 28px;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: clamp(22px,3vw,42px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.35;
+    color: var(--muted);
+}
+
+/* 07. ART SHOP / GALLERY */
+.art-gallery {
+    width: min(1150px, 90%);
+    margin: 70px auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 24px;
+
+    align-items: start;
+}
+
+
+/* Clickable product */
+
+.art-link {
+    display: block;
+    width: 100%;
+}
+
+
+/* Product card */
+
+.art-card {
+    width: 100%;
+    max-width: 270px;
+
+    margin: 0 auto;
+    padding: 7px;
+
+    background: var(--black-soft);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,.25);
+
+    transition:
+        transform .35s ease,
+        border-color .35s ease,
+        box-shadow .35s ease;
+}
+
+
+/* Product image */
+
+.art-card img {
+    display: block;
+
+    width: 100%;
+    height: 285px;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    transition: transform .45s ease;
+}
+
+
+/* Product label / title */
+
+.art-card figcaption {
+    width: 100%;
+
+    padding: 12px 5px 8px;
+
+    font-family: "Playfair Display", Georgia, serif;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    line-height: 1.3;
+
+    color: var(--white);
+
+    /* Prevent the title from becoming huge */
+    overflow: hidden;
+}
+
+
+/* Small decorative line */
+
+.art-card figcaption::after {
+    content: "";
+
+    display: block;
+
+    width: 28px;
+    height: 2px;
+
+    margin-top: 8px;
+
+    background: var(--gold);
+
+    transition: width .3s ease;
+}
+
+
+/* Hover */
+
+.art-card:hover {
+    transform: translateY(-7px);
+
+    border-color: var(--gold);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.45);
+}
+
+.art-card:hover img {
+    transform: scale(1.035);
+}
+
+.art-card:hover figcaption::after {
+    width: 45px;
+}
+
+/* 08. ABOUT */
+.about-box {
+    position: relative;
+    min-height: 55vh;
+    padding: clamp(90px,11vw,160px) clamp(25px,11vw,15%);
+    background: linear-gradient(135deg,#11110f,#080808 70%);
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.about-box h2 {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 25px;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: clamp(45px,7vw,100px);
+    line-height: .95;
+    letter-spacing: -.06em;
+}
+
+.about-box p {
+    position: relative;
+    z-index: 2;
+    max-width: 650px;
+    color: var(--muted);
+    font-size: clamp(16px,1.5vw,20px);
+    line-height: 1.9;
+}
+
+.about-box p + p {
+    margin-top: 18px;
+}
+
+/* 09. PRODUCT PAGE */
+.product-page {
+    min-height: 100vh;
+    padding: 130px 8% 100px;
+    background: var(--black);
+}
+
+.back-button {
+    display: inline-block;
+    margin-bottom: 55px;
+    color: var(--muted);
+    font-size: 14px;
+    transition: .3s ease;
+}
+
+.back-button:hover {
+    color: var(--gold);
+    transform: translateX(-5px);
+}
+
+.product {
+    max-width: 1250px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: clamp(50px,8vw,120px);
+    align-items: center;
+}
+
+.product-image {
+    overflow: hidden;
+    background: #111;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55);
+}
+
+.product-image img {
+    display: block;
+    width: 100%;
+    max-height: 700px;
+    object-fit: cover;
+    transition: transform 1s ease;
+}
+
+.product-image:hover img {
+    transform: scale(1.025);
+}
+
+.product-category {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    margin-bottom: 20px;
+}
+
+.product-info h1 {
+    max-width: 600px;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: clamp(45px,6vw,80px);
+    line-height: .95;
+    letter-spacing: -.06em;
+}
+
+.product-description {
+    max-width: 500px;
+    margin-top: 30px;
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+.price {
+    margin-top: 35px;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: 36px;
+}
+
+.buy-button {
+    margin-top: 25px;
+    padding: 15px 25px;
+    border: 0;
+    border-radius: 50px;
+    background: var(--gold);
+    color: var(--black);
+    font-weight: 700;
+    cursor: pointer;
+    transition: .35s ease;
+}
+
+.buy-button:hover {
+    background: var(--gold-light);
+    transform: translateY(-4px);
+}
+
+.vendor {
+    margin-top: 55px;
+    padding-top: 25px;
+    border-top: 1px solid var(--border);
+}
+
+.vendor h2 {
+    margin-top: 8px;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: 25px;
+}
+
+.vendor p {
+    color: var(--muted);
+}
+
+.details {
+    max-width: 1250px;
+    margin: 130px auto 0;
+    padding-top: 50px;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 50px;
+}
+
+.detail-box span {
+    color: var(--gold);
+}
+
+.detail-box h2 {
+    margin-top: 15px;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: 28px;
+}
+
+.detail-box p {
+    max-width: 300px;
+    margin-top: 15px;
+    color: #888;
+    line-height: 1.8;
+}
+
+/* 13. STANDARD / PHILOSOPHY SECTION */
+.standard-section {
+    width: min(1150px,90%);
+    margin: 60px auto 0;
+    padding: 70px 0;
+    border-top: 1px solid var(--border);
+}
+
+.standard-heading h2 {
+    max-width: 620px;
+    margin-top: 8px;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: clamp(30px,4vw,48px);
+    line-height: 1.15;
+    letter-spacing: -.03em;
+}
+
+.standard-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: clamp(30px,5vw,60px);
+    margin-top: 50px;
+}
+
+.standard-item {
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.standard-kicker {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+}
+
+.standard-item h3 {
+    margin-top: 14px;
+    font-family: "Playfair Display",Georgia,serif;
+    font-size: 24px;
+    letter-spacing: -.02em;
+}
+
+.standard-item p {
+    margin-top: 12px;
+    color: var(--muted);
+    line-height: 1.75;
+    font-size: 15px;
+}
+
+/* 14. TESTIMONIAL TEASER */
+.testimonial-teaser {
+    width: min(900px,88%);
+    margin: 60px auto;
+    padding: 60px clamp(20px,5vw,60px);
+    text-align: center;
+    background: var(--black-soft);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+}
+
+.testimonial-teaser blockquote p {
+    font-family: "Playfair Display",Georgia,serif;
+    font-style: italic;
+    font-size: clamp(19px,2.4vw,28px);
+    line-height: 1.5;
+    max-width: 680px;
+    margin: 0 auto;
+    color: var(--white);
+}
+
+.testimonial-teaser cite {
+    display: block;
+    margin-top: 18px;
+    color: var(--muted);
+    font-style: normal;
+    font-size: 13px;
+    letter-spacing: .05em;
+}
+
+.teaser-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 26px;
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    transition: gap .25s ease, color .25s ease;
+}
+
+.teaser-link:hover {
+    gap: 12px;
+    color: var(--gold-light);
+}
+
+/* 15. FOOTER */
+.site-footer {
+    background: var(--black-soft);
+    border-top: 1px solid var(--border);
+    padding: 80px clamp(25px,8vw,90px) 30px;
+}
+
+.footer-top {
+    max-width: 1250px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 50px;
+}
+
+.footer-brand p {
+    margin-top: 16px;
+    max-width: 320px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.footer-links, .footer-contact {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-links h4, .footer-contact h4 {
+    margin-bottom: 18px;
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.footer-links a, .footer-contact a {
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 14px;
+    width: fit-content;
+    transition: color .25s ease;
+}
+
+.footer-links a:hover, .footer-contact a:hover {
+    color: var(--gold);
+}
+
+.footer-contact p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.footer-bottom {
+    max-width: 1250px;
+    margin: 60px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+}
+
+/* 16. SCROLL REVEAL */
+.reveal {
+    opacity: 0;
+    transform: translateY(45px);
+    transition: opacity .9s ease, transform .9s ease;
+}
+
+.reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 10. ANIMATIONS */
+@keyframes headerDrop {
+    from { opacity: 0; transform: translateY(-100%); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cinematicZoom {
+    from { transform: scale(1.12); }
+    to { transform: scale(1); }
+}
+
+@keyframes heroReveal {
+    from {
+        opacity: 0;
+        transform: translateX(-70px);
+        filter: blur(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes lineReveal {
+    from { width: 0; }
+    to { width: 95px; }
+}
+
+@keyframes subReveal {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scrollCue {
+    0%, 100% { transform: scaleY(1); transform-origin: top; opacity: .5; }
+    50% { transform: scaleY(.4); transform-origin: top; opacity: 1; }
+}
+
+@keyframes sectionReveal {
+    from { opacity: 0; transform: translateY(45px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes artCardAppear {
+    from { opacity: 0; transform: translateY(40px) scale(.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes ambientFloat {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50% { transform: translate(-40px,35px) scale(1.12); }
+}
+
+/* 11. MOBILE */
+/* =========================================================
+   11. MOBILE — SHOP
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .art-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .art-card {
+        max-width: 260px;
+    }
+
+    .standard-grid {
+        grid-template-columns: 1fr;
+        gap: 34px;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr 1fr;
+        row-gap: 40px;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+    }
+}
+
+
+@media (max-width: 550px) {
+
+    .art-gallery {
+        width: 90%;
+
+        grid-template-columns: 1fr;
+
+        gap: 25px;
+    }
+
+    .art-card {
+        max-width: 280px;
+    }
+
+    .art-card img {
+        height: 300px;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 14. NAV / MOBILE HEADER */
+@media (max-width: 800px) {
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 78px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 10px clamp(25px,6vw,90px) 20px;
+        background: rgba(8,8,8,.97);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--border);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height .4s ease, opacity .3s ease;
+    }
+
+    .nav-links.open {
+        max-height: 320px;
+        opacity: 1;
+    }
+
+    .nav-links a {
+        width: 100%;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 15px;
+    }
+
+    .nav-links a:last-child {
+        border-bottom: 0;
+    }
+
+    .nav-links a::after {
+        display: none;
+    }
+
+    .container .text {
+        width: min(850px,88%);
+    }
+
+    .scroll-cue {
+        display: none;
+    }
+}
+
+/* 12. ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

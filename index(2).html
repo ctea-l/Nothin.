@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nothin.in — One of a kind, once.</title>
+    <meta name="description" content="Nothin.in — handpicked, one-of-one pieces. Once a piece sells, it's never listed again.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style(2).css">
+    <style>
+        /* PRODUCT SYSTEM — kept here so the main site needs no extra JS/CSS file */
+        .shop-heading{width:min(1150px,90%);margin:100px auto 30px;text-align:left}
+        .shop-heading h2{font-family:"Playfair Display",Georgia,serif;font-size:clamp(40px,6vw,75px);letter-spacing:-.05em}
+        .shop-heading p{color:var(--muted);margin-top:12px}
+        .product-card{position:relative;cursor:pointer;opacity:0}
+        .product-card.card-in{animation:artCardAppear .7s ease forwards}
+        .product-code{display:block;color:var(--gold);font:700 10px Arial,sans-serif;letter-spacing:.12em;margin-top:8px}
+        .product-hover{max-height:0;opacity:0;overflow:hidden;transition:max-height .35s ease,opacity .3s ease,padding .3s ease}
+        .art-card:hover .product-hover,.art-card:focus-within .product-hover{max-height:90px;opacity:1;padding:6px 5px 4px}
+        .quick-buy{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:10px 17px;border:0;border-radius:30px;background:var(--gold);color:#080808;font-weight:700;cursor:pointer;transition:background .25s ease,transform .25s ease}
+        .quick-buy:hover{background:var(--gold-light);transform:translateY(-2px)}
+        .empty-shop{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 20px;border:1px dashed var(--border);border-radius:15px}
+        .modal{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88);padding:20px}
+        .modal.open{display:flex}
+        .modal-box{position:relative;width:min(1100px,96vw);max-height:94vh;background:#111;border:1px solid var(--border);border-radius:18px;overflow:auto;box-shadow:0 30px 100px #000}
+        .close-modal{position:absolute;right:18px;top:14px;width:42px;height:42px;border:1px solid rgba(255,255,255,.2);border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:25px;z-index:4;cursor:pointer}
+        .gallery-layout{display:grid;grid-template-columns:1.15fr .85fr;min-height:600px}
+        .gallery-view{position:relative;background:#080808;display:flex;align-items:center;justify-content:center;min-height:600px;overflow:hidden}
+        .gallery-view img{max-width:100%;max-height:78vh;object-fit:contain;cursor:zoom-in;transition:transform .3s ease}
+        .gallery-view img.zoomed{transform:scale(1.8);cursor:zoom-out}
+        .gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:45px;height:45px;border:0;border-radius:50%;background:rgba(0,0,0,.65);color:#fff;font-size:27px;cursor:pointer;z-index:2}
+        .gallery-arrow.prev{left:15px}.gallery-arrow.next{right:15px}
+        .gallery-count{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);padding:7px 12px;border-radius:20px;color:#fff;font-size:12px}
+        .gallery-info{padding:55px 40px;display:flex;flex-direction:column;justify-content:center}
+        .gallery-code{color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.2em}
+        .gallery-info h2{font-family:"Playfair Display",Georgia,serif;font-size:clamp(38px,5vw,70px);line-height:.98;margin-top:14px}
+        .gallery-info .modal-price{font-family:"Playfair Display",Georgia,serif;font-size:32px;margin:25px 0 10px}
+        .gallery-info p{color:var(--muted);line-height:1.8;white-space:pre-line}
+        .modal-buy{display:inline-block;margin-top:28px;padding:15px 25px;border:0;border-radius:40px;background:var(--gold);color:#080808;font-weight:800;cursor:pointer;text-align:center}
+        .modal-buy:hover{background:var(--gold-light);transform:translateY(-3px)}
+        .thumbs{display:flex;gap:8px;overflow:auto;padding:12px;background:#0b0b0b}
+        .thumbs img{width:65px;height:65px;object-fit:cover;border:2px solid transparent;border-radius:6px;cursor:pointer;opacity:.7}.thumbs img.active{border-color:var(--gold);opacity:1}
+        @media(max-width:800px){.gallery-layout{grid-template-columns:1fr}.gallery-view{min-height:55vh}.gallery-info{padding:30px 24px}.gallery-info h2{font-size:42px}}
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <a class="brand" href="#home-home">Nothin<span>.in</span></a>
+
+        <nav class="nav-links" id="navLinks">
+            <a href="#home-home">Home</a>
+            <a href="review.html">Review</a>
+            <a href="#shop">Shop</a>
+            <a href="#about-section">About</a>
+        </nav>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <div class="container">
+        <img src="back.jpeg" alt="Nothin.in collection">
+
+        <div class="text">
+            <span class="hero-word">WELCOME</span>
+
+            <p class="hero-sub">Because there's nothin' quite like the original.</p>
+
+            <div class="hero-rotator" aria-live="polite">
+                <span class="rot is-active">One piece.</span>
+                <span class="rot">One story.</span>
+                <span class="rot">Yours alone.</span>
+            </div>
+        </div>
+
+        <a href="#shop" class="scroll-cue" aria-label="Scroll to the shop">
+            <span class="scroll-cue-line"></span>
+            Scroll to shop
+        </a>
+    </div>
+
+    <section id="home-home" class="home reveal">
+        <span class="eyebrow">Est. for the few, not the many</span>
+        <h1 class="h-h1">CREATE. SHARE.</h1>
+        <h2 class="h-h2">Find unique. be unique.</h2>
+    </section>
+
+    <section id="shop">
+        <div class="shop-heading reveal">
+            <span class="eyebrow">The Collection</span>
+            <h2>Our Collection</h2>
+            <p>Hover over a product for the quick Buy option. Click a product photo to view all photos and zoom.</p>
+        </div>
+        <section id="productGrid" class="art-gallery" aria-live="polite"></section>
+    </section>
+
+    <section class="standard-section reveal">
+        <div class="standard-heading">
+            <span class="eyebrow">The Nothin. Standard</span>
+            <h2>Every piece answers to three rules.</h2>
+        </div>
+        <div class="standard-grid">
+            <article class="standard-item">
+                <span class="standard-kicker">Scarcity</span>
+                <h3>One of one</h3>
+                <p>No two listings ever share a code. Once a piece sells, it's gone for good — we don't restock what can't be repeated.</p>
+            </article>
+            <article class="standard-item">
+                <span class="standard-kicker">Trust</span>
+                <h3>Hand-verified</h3>
+                <p>Every piece is checked and photographed by hand before it goes up. What you see in the gallery is exactly what arrives.</p>
+            </article>
+            <article class="standard-item">
+                <span class="standard-kicker">Direct</span>
+                <h3>Straight to you</h3>
+                <p>No middlemen, no marketplace queue. Message us directly on WhatsApp and we'll confirm availability the same day.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="testimonial-teaser reveal">
+        <blockquote>
+            <p>"Found a saree here I hadn't seen anywhere else — it arrived exactly like the photos, and no one else at the wedding was wearing anything close."</p>
+            <cite>— a recent customer</cite>
+        </blockquote>
+        <a href="Review.html" class="teaser-link">Read more reviews <span>→</span></a>
+    </section>
+
+    <section id="about-section" class="about-box reveal">
+        <span class="eyebrow">About</span>
+        <h2>About me</h2>
+        <p>I pick every piece myself — nothing goes up here that I wouldn't wear or gift. Most of what you'll find is a single unit: one saree, one print, one piece, sold once and never listed again. If it's still up, it's still yours to have.</p>
+        <p>Questions before you buy? Message me directly on WhatsApp — I read every message myself.</p>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a class="brand" href="#home-home">Nothin<span>.in</span></a>
+                <p>One-of-a-kind pieces, sold once. Curated in India, shipped wherever you are.</p>
+            </div>
+
+            <div class="footer-links">
+                <h4>Explore</h4>
+                <a href="#home-home">Home</a>
+                <a href="#shop">Shop</a>
+                <a href="Review.html">Review</a>
+                <a href="#about-section">About</a>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Get in touch</h4>
+                <a href="https://wa.me/9072027391" target="_blank" rel="noopener">WhatsApp us</a>
+                <p>Mon–Sat, 10am – 7pm IST</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> Nothin.in — all pieces final sale.</p>
+        </div>
+    </footer>
+
+    <!-- Product gallery modal -->
+    <div id="productModal" class="modal" role="dialog" aria-modal="true" aria-label="Product details">
+        <div class="modal-box">
+            <button class="close-modal" id="closeModal" aria-label="Close">&times;</button>
+            <div class="gallery-layout">
+                <div>
+                    <div class="gallery-view">
+                        <button class="gallery-arrow prev" id="prevImage" aria-label="Previous photo">‹</button>
+                        <img id="modalImage" src="" alt="Product photo">
+                        <button class="gallery-arrow next" id="nextImage" aria-label="Next photo">›</button>
+                        <span id="galleryCount" class="gallery-count"></span>
+                    </div>
+                    <div id="thumbs" class="thumbs"></div>
+                </div>
+                <div class="gallery-info">
+                    <span id="modalCode" class="gallery-code"></span>
+                    <h2 id="modalName"></h2>
+                    <div id="modalPrice" class="modal-price"></div>
+                    <p id="modalDescription"></p>
+                    <button id="modalBuy" class="modal-buy">Buy </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+/* ============================================================
+   NOTHIN.IN PRODUCT ENGINE
+   Admin products are saved in localStorage by admin.html.
+   ============================================================ */
+const WHATSAPP_NUMBER = "9072027391"; // Put country code + number here, without + or spaces. Example: 919876543210
+const PRODUCT_STORAGE_KEY = "nothin_products_v1";
+const defaultProducts = [
+    { code:"PRD-1.1", name:"Kaanjipuram Saree", price:"2399", description:"Only 1 piece original.", images:["pic1.jpg"] }
+];
+
+function getProducts(){
+    try{
+        const saved = JSON.parse(localStorage.getItem(PRODUCT_STORAGE_KEY));
+        return Array.isArray(saved) ? saved : defaultProducts;
+    }catch(e){ return defaultProducts; }
+}
+
+const grid = document.getElementById("productGrid");
+const modal = document.getElementById("productModal");
+const modalImage = document.getElementById("modalImage");
+let products = getProducts();
+let activeProduct = null;
+let activeImage = 0;
+
+function safeText(value){
+    return String(value ?? "").replace(/[&<>\"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));
+}
+
+function renderProducts(){
+    products = getProducts();
+    if(!products.length){
+        grid.innerHTML = '<div class="empty-shop">No products have been added yet. Please check back soon.</div>';
+        return;
+    }
+    grid.innerHTML = products.map((p,index)=>{
+        const image = p.images && p.images[0] ? p.images[0] : "pic1.jpg";
+        return `
+        <figure class="art-card product-card" tabindex="0" data-index="${index}">
+            <img src="${image}" alt="${safeText(p.name)}" loading="lazy">
+            <figcaption>
+                ${safeText(p.name)}
+                <span class="product-code">${safeText(p.code)}</span>
+                <span class="product-hover">
+                    <strong>${p.price ? "₹"+safeText(p.price) : ""}</strong><br>
+                    <button class="quick-buy" type="button" data-buy="${index}">Buy</button>
+                </span>
+            </figcaption>
+        </figure>`;
+    }).join("");
+    observeProductCards();
+}
+
+function openProduct(index){
+    activeProduct = products[index];
+    activeImage = 0;
+    updateModal();
+    modal.classList.add("open");
+    document.body.style.overflow = "hidden";
+}
+function closeProduct(){
+    modal.classList.remove("open");
+    document.body.style.overflow = "";
+    modalImage.classList.remove("zoomed");
+}
+function updateModal(){
+    if(!activeProduct) return;
+    const images = activeProduct.images?.length ? activeProduct.images : ["pic1.jpg"];
+    if(activeImage >= images.length) activeImage=0;
+    modalImage.src = images[activeImage];
+    modalImage.alt = activeProduct.name;
+    document.getElementById("modalCode").textContent = activeProduct.code;
+    document.getElementById("modalName").textContent = activeProduct.name;
+    document.getElementById("modalPrice").textContent = activeProduct.price ? "₹"+activeProduct.price : "";
+    document.getElementById("modalDescription").textContent = activeProduct.description || "";
+    document.getElementById("galleryCount").textContent = `${activeImage+1} / ${images.length}`;
+    document.getElementById("thumbs").innerHTML = images.map((src,i)=>`<img src="${src}" class="${i===activeImage?'active':''}" data-photo="${i}" alt="Thumbnail ${i+1}">`).join("");
+}
+function buyProduct(product){
+    if(!product) return;
+    if(WHATSAPP_NUMBER === "YOUR_PHONE_NUMBER_HERE"){
+        alert("Please add your WhatsApp number in index.html before using the Buy button.");
+        return;
+    }
+    const message = `Hello! I would like to buy this product.\n\nProduct: ${product.name}\nProduct Code: ${product.code}\nPrice: ₹${product.price || "Not specified"}\n\nPlease let me know the availability and next steps. Thank you!`;
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
+}
+
+grid.addEventListener("click", e=>{
+    const buy=e.target.closest("[data-buy]");
+    if(buy){ e.stopPropagation(); buyProduct(products[Number(buy.dataset.buy)]); return; }
+    const card=e.target.closest(".product-card");
+    if(card) openProduct(Number(card.dataset.index));
+});
+grid.addEventListener("keydown", e=>{
+    if((e.key==="Enter"||e.key===" ") && e.target.closest(".product-card")){
+        e.preventDefault(); openProduct(Number(e.target.closest(".product-card").dataset.index));
+    }
+});
+document.getElementById("closeModal").onclick=closeProduct;
+document.getElementById("prevImage").onclick=()=>{ if(!activeProduct)return; const n=activeProduct.images?.length||1; activeImage=(activeImage-1+n)%n; modalImage.classList.remove("zoomed"); updateModal(); };
+document.getElementById("nextImage").onclick=()=>{ if(!activeProduct)return; const n=activeProduct.images?.length||1; activeImage=(activeImage+1)%n; modalImage.classList.remove("zoomed"); updateModal(); };
+document.getElementById("modalBuy").onclick=()=>buyProduct(activeProduct);
+modalImage.onclick=()=>modalImage.classList.toggle("zoomed");
+document.getElementById("thumbs").addEventListener("click",e=>{ const t=e.target.closest("[data-photo]"); if(t){activeImage=Number(t.dataset.photo);modalImage.classList.remove("zoomed");updateModal();} });
+modal.addEventListener("click",e=>{if(e.target===modal)closeProduct();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&modal.classList.contains("open"))closeProduct();});
+renderProducts();
+
+/* ============================================================
+   MOBILE NAVIGATION
+   ============================================================ */
+const navToggle = document.getElementById("navToggle");
+const navLinks = document.getElementById("navLinks");
+navToggle.addEventListener("click", ()=>{
+    const isOpen = navLinks.classList.toggle("open");
+    navToggle.classList.toggle("active", isOpen);
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+    document.body.style.overflow = isOpen ? "hidden" : "";
+});
+navLinks.querySelectorAll("a").forEach(a=>a.addEventListener("click", ()=>{
+    navLinks.classList.remove("open");
+    navToggle.classList.remove("active");
+    navToggle.setAttribute("aria-expanded","false");
+    document.body.style.overflow = "";
+}));
+
+/* ============================================================
+   HERO ROTATOR — cycles the short phrases under the hero line
+   ============================================================ */
+(function heroRotator(){
+    const words = document.querySelectorAll(".hero-rotator .rot");
+    if(!words.length) return;
+    let i = 0;
+    setInterval(()=>{
+        words[i].classList.remove("is-active");
+        i = (i+1) % words.length;
+        words[i].classList.add("is-active");
+    }, 2200);
+})();
+
+/* ============================================================
+   SCROLL REVEAL — fades sections in as they enter the viewport
+   ============================================================ */
+const revealObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){
+            entry.target.classList.add("in-view");
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+document.querySelectorAll(".reveal").forEach(el=>revealObserver.observe(el));
+
+function observeProductCards(){
+    const cardObserver = new IntersectionObserver((entries)=>{
+        entries.forEach((entry, idx)=>{
+            if(entry.isIntersecting){
+                entry.target.style.animationDelay = (idx % 4) * 0.08 + "s";
+                entry.target.classList.add("card-in");
+                cardObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll(".product-card").forEach(el=>cardObserver.observe(el));
+}
+
+/* ============================================================
+   FOOTER YEAR
+   ============================================================ */
+const yearEl = document.getElementById("year");
+if(yearEl) yearEl.textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

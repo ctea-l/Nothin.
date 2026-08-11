@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nothin.in — Review</title>
+
+    <style>
+
+        /* =====================================================
+           BASIC
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    rgba(0,0,0,.70),
+                    rgba(0,0,0,.78)
+                ),
+                url("back.jpeg");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 30px;
+        }
+
+
+        /* =====================================================
+           REVIEW CARD
+        ===================================================== */
+
+        .review-container {
+
+            width: 100%;
+            max-width: 550px;
+
+            padding: 45px;
+
+            background: rgba(15,15,15,.78);
+
+            border: 1px solid rgba(255,255,255,.15);
+
+            border-radius: 22px;
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.55);
+
+            animation: appear .8s ease;
+        }
+
+
+        /* =====================================================
+           LOGO / HEADING
+        ===================================================== */
+
+        .logo {
+
+            text-align: center;
+
+            font-family: Georgia, serif;
+
+            font-size: 18px;
+
+            letter-spacing: 4px;
+
+            color: #d9b86c;
+
+            margin-bottom: 20px;
+        }
+
+        h1 {
+
+            text-align: center;
+
+            font-family: Georgia, serif;
+
+            font-size: clamp(35px, 7vw, 55px);
+
+            font-weight: 500;
+
+            letter-spacing: -2px;
+
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #aaa;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* =====================================================
+           STAR RATING
+        ===================================================== */
+
+        .rating-title {
+
+            font-size: 13px;
+
+            color: #bbb;
+
+            margin-bottom: 12px;
+
+            letter-spacing: 1px;
+        }
+
+        .stars {
+
+            display: flex;
+
+            flex-direction: row-reverse;
+
+            justify-content: flex-end;
+
+            gap: 7px;
+
+            margin-bottom: 30px;
+        }
+
+        .stars input {
+
+            display: none;
+        }
+
+        .stars label {
+
+            font-size: 38px;
+
+            color: #444;
+
+            cursor: pointer;
+
+            transition: .25s ease;
+        }
+
+        .stars label:hover,
+        .stars label:hover ~ label {
+
+            color: #d9b86c;
+
+            transform: scale(1.08);
+        }
+
+        .stars input:checked ~ label {
+
+            color: #d9b86c;
+        }
+
+
+        /* =====================================================
+           DESCRIPTION
+        ===================================================== */
+
+        .field-label {
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            color: #bbb;
+
+            font-size: 13px;
+
+            letter-spacing: 1px;
+        }
+
+        textarea {
+
+            width: 100%;
+
+            min-height: 150px;
+
+            resize: vertical;
+
+            padding: 16px;
+
+            border-radius: 12px;
+
+            border: 1px solid rgba(255,255,255,.14);
+
+            outline: none;
+
+            background: rgba(255,255,255,.06);
+
+            color: white;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+            transition: .3s ease;
+        }
+
+        textarea::placeholder {
+
+            color: #777;
+        }
+
+        textarea:focus {
+
+            border-color: #d9b86c;
+
+            background: rgba(255,255,255,.08);
+
+            box-shadow:
+                0 0 0 3px rgba(217,184,108,.08);
+        }
+
+
+        /* =====================================================
+           NAME
+        ===================================================== */
+
+        .name-input {
+
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            border: 1px solid rgba(255,255,255,.14);
+
+            outline: none;
+
+            background: rgba(255,255,255,.06);
+
+            color: white;
+
+            font-size: 15px;
+        }
+
+        .name-input::placeholder {
+
+            color: #777;
+        }
+
+        .name-input:focus {
+
+            border-color: #d9b86c;
+        }
+
+
+        /* =====================================================
+           SUBMIT BUTTON
+        ===================================================== */
+
+        .submit-button {
+
+            width: 100%;
+
+            margin-top: 25px;
+
+            padding: 16px;
+
+            border: none;
+
+            border-radius: 50px;
+
+            background: #d9b86c;
+
+            color: #080808;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            letter-spacing: .5px;
+
+            cursor: pointer;
+
+            transition: .35s ease;
+        }
+
+        .submit-button:hover {
+
+            background: #f0d995;
+
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 35px rgba(217,184,108,.22);
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer-text {
+
+            text-align: center;
+
+            color: #666;
+
+            font-size: 11px;
+
+            margin-top: 25px;
+        }
+
+
+        /* =====================================================
+           ANIMATION
+        ===================================================== */
+
+        @keyframes appear {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(30px)
+                    scale(.97);
+
+                filter: blur(5px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+
+                filter: blur(0);
+            }
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding: 15px;
+            }
+
+            .review-container {
+
+                padding: 30px 22px;
+
+                border-radius: 18px;
+            }
+
+            .stars label {
+
+                font-size: 32px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="review-container">
+
+        <div class="logo">
+            NOTHIN.IN
+        </div>
+
+
+        <h1>
+            Share Your Experience
+        </h1>
+
+
+        <p class="subtitle">
+            Your feedback helps us improve Nothin.in
+            and create a better experience for artists
+            and art lovers.
+        </p>
+
+
+        <form id="reviewForm">
+
+
+            <!-- STAR RATING -->
+
+            <p class="rating-title">
+                YOUR RATING
+            </p>
+
+            <div class="stars">
+
+                <input type="radio" id="star5" name="rating" value="5">
+                <label for="star5">★</label>
+
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4">★</label>
+
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3">★</label>
+
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2">★</label>
+
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1">★</label>
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <label class="field-label">
+                YOUR NAME
+            </label>
+
+            <input
+                class="name-input"
+                type="text"
+                id="name"
+                placeholder="Enter your name"
+                maxlength="50"
+            >
+
+
+            <!-- REVIEW -->
+
+            <label class="field-label" style="margin-top:22px;">
+                YOUR REVIEW
+            </label>
+
+            <textarea
+                id="review"
+                placeholder="Tell us what you think about Nothin.in..."
+                maxlength="1000"
+                required
+            ></textarea>
+
+
+            <!-- BUTTON -->
+
+            <button
+                type="submit"
+                class="submit-button"
+            >
+                SEND REVIEW →
+            </button>
+
+
+        </form>
+
+
+        <p class="footer-text">
+            Thank you for supporting Nothin.in
+        </p>
+
+    </div>
+
+
+    <script>
+
+        document
+        .getElementById("reviewForm")
+        .addEventListener("submit", function(event) {
+
+            event.preventDefault();
+
+
+            /* Get user information */
+
+            const name =
+                document.getElementById("name").value
+                || "Anonymous";
+
+
+            const review =
+                document.getElementById("review").value;
+
+
+            const selected =
+                document.querySelector(
+                    'input[name="rating"]:checked'
+                );
+
+
+            const rating =
+                selected
+                ? selected.value
+                : "Not selected";
+
+
+            /* Create email */
+
+            const subject =
+                encodeURIComponent(
+                    "Nothin.in Website Review"
+                );
+
+
+            const body =
+                encodeURIComponent(
+                    "Nothin.in Website Review\n\n" +
+
+                    "Name: " + name + "\n" +
+
+                    "Rating: " + rating + "/5\n\n" +
+
+                    "Review:\n" +
+                    review
+                );
+
+
+            /*
+             * Email address is NOT displayed
+             * anywhere on the webpage.
+             */
+
+            const mail =
+                "mailto:" +
+                "abhyyi88" +
+                "@gmail.com" +
+                "?subject=" +
+                subject +
+                "&body=" +
+                body;
+
+
+            window.location.href = mail;
+
+        });
+
+    </script>
+
+
+</body>
+</html>
